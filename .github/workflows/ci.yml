@@ -12,7 +12,7 @@ env:
   ECR_REPOSITORY: aws-ecr-app
   ECS_CLUSTER: github-actions-cluster
   ECS_SERVICE: github-actions-task-definitions-service-f2n8xwcz
-  ECS_TASK_DEFINITION: github-actions-task-definitions-revision1.json
+  ECS_TASK_DEFINITION: task-definition.json
   CONTAINER_NAME: goapp
 
 jobs:
@@ -71,7 +71,7 @@ jobs:
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
-        task-definition: github-actions-task-definitions-revision1.json
+        task-definition: ${{ env.ECS_TASK_DEFINITION }}
         container-name: ${{ env.CONTAINER_NAME }}
         image: ${{ steps.build-image.outputs.image }}
   

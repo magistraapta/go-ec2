@@ -12,11 +12,11 @@ env:
   ECR_REPOSITORY: aws-ecr-app
   ECS_CLUSTER: github-actions-cluster
   ECS_SERVICE: github-actions-task-definitions-service-f2n8xwcz
-  ECS_TASK_DEFINITION: task-definition.json
+  ECS_TASK_DEFINITION: github-actions-task-definitions-revision1.json
   CONTAINER_NAME: goapp
 
 jobs:
-  test:
+  build:
     runs-on: ubuntu-latest
     
     steps:
@@ -28,9 +28,10 @@ jobs:
       with:
         go-version: '1.24'
 
-  build:
+  push-image-to-ecr:
     runs-on: ubuntu-latest
-    
+    needs: build
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
@@ -66,7 +67,12 @@ jobs:
       run: |
         echo "Image pushed to: ${{ steps.build-image.outputs.image }}"
         echo "Latest image: ${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:latest"
-    
+
+  deploy-on-ecs:
+    runs-on: ubuntu-latest
+    needs: push-image-to-ecr
+
+    steps:
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
       uses: aws-actions/amazon-ecs-render-task-definition@v1

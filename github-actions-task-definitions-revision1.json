@@ -5,7 +5,7 @@
   "cpu": "1024",
   "memory": "3072",
   "executionRoleArn": "arn:aws:iam::580721476518:role/ecsTaskExecutionRole",
-  "taskRoleArn": "arn:aws:iam::580721476518:role/ecsTaskRole",
+  "taskRoleArn": "arn:aws:iam::580721476518:role/ecsTaskExecutionRole",
   "containerDefinitions": [
     {
       "name": "goapp",

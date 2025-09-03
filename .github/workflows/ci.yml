@@ -11,7 +11,7 @@ env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: aws-ecr-app
   ECS_CLUSTER: github-actions-cluster
-  ECS_SERVICE: github-actions-task-definitions-service-f2n8xwcz
+  ECS_SERVICE: github-actions-task-definitions-service-racw321k
   ECS_TASK_DEFINITION: github-actions-task-definitions-revision1.json
   CONTAINER_NAME: goapp
 

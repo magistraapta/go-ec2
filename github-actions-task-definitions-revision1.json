@@ -1,86 +1,46 @@
 {
-    "compatibilities": [
-        "EC2",
-        "FARGATE"
-    ],
-    "containerDefinitions": [
+  "family": "github-actions-task-definitions",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "1024",
+  "memory": "3072",
+  "executionRoleArn": "arn:aws:iam::580721476518:role/ecsTaskExecutionRole",
+  "taskRoleArn": "arn:aws:ecs:us-east-1:580721476518:task-definition/github-actions-task-definitions:1",
+  "containerDefinitions": [
+    {
+      "name": "goapp",
+      "image": "580721476518.dkr.ecr.us-east-1.amazonaws.com/aws-ecr-app",
+      "portMappings": [
         {
-            "cpu": 0,
-            "environment": [],
-            "environmentFiles": [],
-            "essential": true,
-            "image": "580721476518.dkr.ecr.us-east-1.amazonaws.com/aws-ecr-app",
-            "logConfiguration": {
-                "logDriver": "awslogs",
-                "options": {
-                    "awslogs-group": "/ecs/github-actions-task-definitions",
-                    "awslogs-create-group": "true",
-                    "awslogs-region": "us-east-1",
-                    "awslogs-stream-prefix": "ecs"
-                },
-                "secretOptions": []
-            },
-            "mountPoints": [],
-            "name": "goapp",
-            "portMappings": [
-                {
-                    "appProtocol": "http",
-                    "containerPort": 8080,
-                    "hostPort": 8080,
-                    "name": "goapp-8080-tcp",
-                    "protocol": "tcp"
-                }
-            ],
-            "systemControls": [],
-            "ulimits": [],
-            "volumesFrom": []
+          "containerPort": 8080,
+          "protocol": "tcp"
         }
-    ],
-    "cpu": "1024",
-    "enableFaultInjection": false,
-    "executionRoleArn": "arn:aws:iam::580721476518:role/ecsTaskExecutionRole",
-    "family": "github-actions-task-definitions",
-    "memory": "3072",
-    "networkMode": "awsvpc",
-    "placementConstraints": [],
-    "registeredAt": "2025-09-03T04:34:44.416Z",
-    "registeredBy": "arn:aws:iam::580721476518:root",
-    "requiresAttributes": [
-        {
-            "name": "com.amazonaws.ecs.capability.logging-driver.awslogs"
-        },
-        {
-            "name": "ecs.capability.execution-role-awslogs"
-        },
-        {
-            "name": "com.amazonaws.ecs.capability.ecr-auth"
-        },
-        {
-            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.19"
-        },
-        {
-            "name": "ecs.capability.execution-role-ecr-pull"
-        },
-        {
-            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.18"
-        },
-        {
-            "name": "ecs.capability.task-eni"
-        },
-        {
-            "name": "com.amazonaws.ecs.capability.docker-remote-api.1.29"
+      ],
+      "essential": true,
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/github-actions-app",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "ecs"
         }
-    ],
-    "requiresCompatibilities": [
-        "FARGATE"
-    ],
-    "revision": 1,
-    "runtimePlatform": {
-        "cpuArchitecture": "X86_64",
-        "operatingSystemFamily": "LINUX"
-    },
-    "status": "ACTIVE",
-    "taskDefinitionArn": "arn:aws:ecs:us-east-1:580721476518:task-definition/github-actions-task-definitions:1",
-    "volumes": [],
-    "tags": []
+      },
+      "environment": [
+        {
+          "name": "PORT",
+          "value": "8080"
+        }
+      ],
+      "healthCheck": {
+        "command": [
+          "CMD-SHELL",
+          "curl -f http://localhost:8080/ || exit 1"
+        ],
+        "interval": 30,
+        "timeout": 5,
+        "retries": 3,
+        "startPeriod": 60
+      }
+    }
+  ]
 }

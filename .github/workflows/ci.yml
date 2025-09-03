@@ -12,7 +12,7 @@ env:
   ECR_REPOSITORY: aws-ecr-app
   ECS_CLUSTER: github-actions-cluster
   ECS_SERVICE: github-actions-task-definitions-service-f2n8xwcz
-  ECS_TASK_DEFINITION: github-actions-task-definitions-revision1
+  ECS_TASK_DEFINITION: github-actions-task-definitions-revision1.json
   CONTAINER_NAME: goapp
 
 jobs:
